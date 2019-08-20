@@ -12,12 +12,22 @@ module.exports = {
     devServer:{
         contentBase:path.resolve(__dirname,'../dev'),
         port:8000,
+        proxy: {
+            "/api": {
+              target: "http://localhost:3000"
+            }
+          }
     },
     module:{
         rules:[{
             test:/\.art$/,
             loader:'art-template-loader'
-        }]
+        },
+        {
+            test: /\.(scss|css)$/,
+            loader: ['style-loader', 'css-loader', 'sass-loader']
+        }
+    ]
     },
     plugins:[
         new htmlWebpackPlugin({
