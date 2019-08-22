@@ -33,6 +33,7 @@ module.exports={
         let result = await userModel.findOne(username)
         if(result){
            if(await tools.compare(password,result.password)){
+               req.session.username = username
                 res.render('succ',{
                     data:JSON.stringify({
                         msg:'用户登录成功',
@@ -53,5 +54,32 @@ module.exports={
                 })
             })
         }
+    },
+    async isSignin(req,res,next){
+        let username = req.session.username
+        if(username){
+            next()
+            res.render('succ',{
+                data:JSON.stringify({
+                    mes:'用户有权限',
+                    username
+                })
+            })
+            
+        }else{
+            res.render('fail',{
+                data:JSON.stringify({
+                    msg:'用户没有权限'
+                })
+            })
+        }
+    },
+    async signout(req,res,next){
+        req.session = null
+        res.render('succ',{
+            data:JSON.stringify({
+                msg:'用户退出成功'
+            })
+        })
     }
 }
