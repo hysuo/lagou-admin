@@ -23,3 +23,20 @@ $layout: inline-block;
   margin-left: 5px;
   line-height: 50px;
 }
+.odd{
+  .modify{
+    margin-right: 10px;
+  }
+  .modify,.delete{
+    cursor: pointer
+  }
+  .modify:hover,.delete:hover{
+    color:rgb(231, 17, 17)
+  }
+}
+.table-striped>tbody>tr:hover:nth-child(n) {
+    background: rgb(196, 189, 189)
+  }
+  .table>tbody>tr>td{
+    vertical-align: middle
+  }

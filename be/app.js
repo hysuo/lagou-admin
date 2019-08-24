@@ -8,6 +8,7 @@ var cookieSession = require('cookie-session')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var positionRouter = require('./routes/position');
+var shopRouter = require('./routes/shop');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/position',positionRouter)
+app.use('/api/shop',shopRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,6 +1,5 @@
 const userModel = require('../models/user')
 const tools = require('../utils/tools')
-
 module.exports={
     async signup(req,res,next){
         res.set('content-type', 'application/json;charset=utf-8')
@@ -51,21 +50,19 @@ module.exports={
             res.render('fail',{
                 data:JSON.stringify({
                     msg:'用户账户或密码错误'
-                })
+                }) 
             })
         }
     },
     async isSignin(req,res,next){
         let username = req.session.username
         if(username){
-            next()
-            res.render('succ',{
-                data:JSON.stringify({
-                    mes:'用户有权限',
-                    username
+                res.render('succ',{
+                    data:JSON.stringify({
+                        mes:'用户有权限',
+                        username
+                    })
                 })
-            })
-            
         }else{
             res.render('fail',{
                 data:JSON.stringify({

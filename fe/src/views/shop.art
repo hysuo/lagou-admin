@@ -1,0 +1,151 @@
+<div class="box">
+    <div class="box-header">
+      <h3 class="box-title">Data Table With Full Features</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="dataTables_length" id="example1_length">
+              <label>Show 
+                <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select> entries
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div id="example1_filter" class="dataTables_filter">
+              <label>Search:
+                <input type="search" class="form-control input-sm" placeholder="" aria-controls="example1">
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-2">
+              <button id="add-shop" class="btn btn-block btn-primary"><span class="fa fa-plus-circle"></span> 添加店铺</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+        {{if total >0}}
+        <thead>
+        <tr role="row">
+          <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 15px;">#</th>
+          <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 50px;">pic</th>
+          <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 128px;">salesNo</th>
+          <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 270px;">salesName</th>
+          <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 195px;">link</th>
+          <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 80px;">agio</th>
+          <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 150px;">manage</th></tr>
+        </thead>
+        <tbody>
+          {{each list}}
+        <tr role="row" class="odd">
+          <td style="width: 20px">{{$index+1}}</td>
+          <td><img width="100" height="50" src="{{$value.mobileImageOne||$value.pic}}" alt=""></td>
+          <td class="sorting_1">{{$value.salesNo}}</td>
+          <td>{{$value.salesName}}</td>
+          <td>{{$value.link}}</td>
+          <td>{{$value.agio.replace(/<[^><]+>/g,"")}}</td>
+          <!-- <td><span class="modify">修改</span><span class="delete">删除</span></td> -->
+          <td> 
+            <button data-id="{{$value['_id']}}" class="btn btn-sm btn-success btn-shop-update"><span class="fa  fa-pencil-square"></span>
+            修改</button>
+          <button data-id="{{$value['_id']}}" class="btn btn-sm btn-danger btn-shop-delete"><span class="fa  fa-minus-square"></span> 删除</button>
+        </td>
+        </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+        <ul class="pagination">
+          <li class="paginate_button previous " id="example1_previous">
+            <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a>
+          </li>
+          {{each pageCount}}
+          <li data-index = "{{$index}}" class="paginate_button {{if pageNo == $index}}active{{/if}}">
+            <a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0">{{$value+1}}</a>
+          </li>
+          {{/each}}
+          <li class="paginate_button next" id="example1_next">
+            <a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0">Next</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {{else}}
+          暂无数据
+  {{/if}}
+</div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- <tr role="row" class="even">
+    <td class="sorting_1">Gecko</td>
+    <td>Firefox 1.5</td>
+    <td>Win 98+ / OSX.2+</td>
+    <td>1.8</td>
+    <td>A</td>
+  </tr><tr role="row" class="odd">
+    <td class="sorting_1">Gecko</td>
+    <td>Firefox 2.0</td>
+    <td>Win 98+ / OSX.2+</td>
+    <td>1.8</td>
+    <td>A</td>
+  </tr><tr role="row" class="even">
+    <td class="sorting_1">Gecko</td>
+    <td>Firefox 3.0</td>
+    <td>Win 2k+ / OSX.3+</td>
+    <td>1.9</td>
+    <td>A</td>
+  </tr><tr role="row" class="odd">
+    <td class="sorting_1">Gecko</td>
+    <td>Camino 1.0</td>
+    <td>OSX.2+</td>
+    <td>1.8</td>
+    <td>A</td>
+  </tr><tr role="row" class="even">
+    <td class="sorting_1">Gecko</td>
+    <td>Camino 1.5</td>
+    <td>OSX.3+</td>
+    <td>1.8</td>
+    <td>A</td>
+  </tr><tr role="row" class="odd">
+    <td class="sorting_1">Gecko</td>
+    <td>Netscape 7.2</td>
+    <td>Win 95+ / Mac OS 8.6-9.2</td>
+    <td>1.7</td>
+    <td>A</td>
+  </tr><tr role="row" class="even">
+    <td class="sorting_1">Gecko</td>
+    <td>Netscape Browser 8</td>
+    <td>Win 98SE+</td>
+    <td>1.7</td>
+    <td>A</td>
+  </tr><tr role="row" class="odd">
+    <td class="sorting_1">Gecko</td>
+    <td>Netscape Navigator 9</td>
+    <td>Win 98+ / OSX.2+</td>
+    <td>1.8</td>
+    <td>A</td>
+  </tr><tr role="row" class="even">
+    <td class="sorting_1">Gecko</td>
+    <td>Mozilla 1.0</td>
+    <td>Win 95+ / OSX.1+</td>
+    <td>1</td>
+    <td>A</td>
+  </tr> -->

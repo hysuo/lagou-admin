@@ -1,0 +1,59 @@
+<div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">店铺添加</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" id="shop-edit-shopsave" action="/api/position" method="post" enctype="multipart/form-data">
+          <div class="box-body">
+            <!--div class="form-group">
+              <label for="companyLogo" class="col-sm-2 control-label">公司Logo</label>
+      
+              <div class="col-sm-10">
+                <input type="file" class="form-control" name="companyLogo" id="companyLogo" placeholder="请选择公司logo图片">
+              </div>
+            </div-->
+            <div class="form-group">
+              <label for="companyName" class="col-sm-2 control-label">pic</label>
+      
+              <div class="col-sm-10">
+                <input type="text" value="{{mobileImageOne||pic}}"  class="form-control" name="pic" id="pic" placeholder="请输入店铺图片">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="positionName" class="col-sm-2 control-label">salesNo</label>
+      
+              <div class="col-sm-10">
+          <input type="text" value="{{salesNo}}" class="form-control" name="salesNo" id="salesNo" placeholder="请输入店铺编号">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="city" class="col-sm-2 control-label">	salesName</label>
+      
+              <div class="col-sm-10">
+                <input type="text"  value="{{salesName}}" class="form-control" name="salesName" id="salesName" placeholder="请输店铺名称">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="salary" class="col-sm-2 control-label">link</label>
+      
+              <div class="col-sm-10">
+                <input type="text"  value="{{link}}" class="form-control" name="link" id="link" placeholder="请输入店铺链接">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="salary" class="col-sm-2 control-label">agio</label>
+      
+              <div class="col-sm-10">
+                <input type="text"  value="{{agio.replace(/<[^><]+>/g,"")}}" class="form-control" name="agio" id="agio" placeholder="请输入打折折数">
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" id="shop-edit-posback" class="btn btn-default">返回</button>
+            <button type="button" id="shop-edit-possubmit" class="btn btn-info pull-right">提交</button>
+          </div>
+          <!-- /.box-footer -->
+        </form>
+      </div>
