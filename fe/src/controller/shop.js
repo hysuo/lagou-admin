@@ -56,8 +56,7 @@ export default {
         })
         $('#router-view').on('click','#example1_paginate .previous',function(){
             let index = $('#example1_paginate .active').attr('data-index')
-            let 
-             = $('#example1_paginate li[data-index]').length
+            let pageLength= $('#example1_paginate li[data-index]').length
             if(index == 0){
               index = pageLength -1
             }else{
