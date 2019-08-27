@@ -1,6 +1,7 @@
 const mongoose = require('../utils/db')
 
 const Model = mongoose.model('positions', {
+    companyLogo: String,
     companyName: String,
     positionName: String,
     city: String,
@@ -21,10 +22,22 @@ module.exports = {
     findOne(id){
         return Model.findById(id)
     },
-    put(data){
+    patch(data){
         return Model.update({_id:data.id},data)
     },
     delete(id){
         return Model.deleteOne({_id:id})
+    },
+    search(keywords){
+        return Model.find({
+            $or:[
+                {
+                    companyName: new RegExp(keywords,'gi')
+                },
+                {
+                    positionName: new RegExp(keywords,'gi')
+                },
+            ]
+        }).sort({_id:-1})
     }
 }

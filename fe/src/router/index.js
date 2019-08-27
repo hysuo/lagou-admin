@@ -21,6 +21,6 @@ router.route('/shop',shop.render)
 router.route('/shop_add',shop.add)
 router.route('/shop_edit',shop.edit)
 
-router.redirect('/shop')
+router.redirect('/position')
 
 export default router

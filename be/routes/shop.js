@@ -8,6 +8,7 @@ router.post('/save',shopController.save)
 router.post('/findone',shopController.findone)
 router.put('/put',shopController.put)
 router.delete('/delete',shopController.delete)
+router.post('/search',shopController.search)
 
 
 module.exports = router

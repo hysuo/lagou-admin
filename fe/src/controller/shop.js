@@ -2,7 +2,7 @@ import shopView from '../views/shop.art'
 import shopAddView from '../views/shop-add.art'
 import shopEditView from '../views/shop-edit.art'
 import _ from 'lodash'
-const COUNT = 6
+let count = 6
 function remove(id,res){
     $.ajax({
         url:'/api/shop/delete',
@@ -13,29 +13,47 @@ function remove(id,res){
         type:'DELETE',
         success(result){
             if(result.ret){
-                res.go('/shop?_='+new Date().getTime())
+                // res.go('/shop?_='+new Date().getTime())
+                loadData(res.pageNo,res)
             }
         }
     })
 }
-function loadData(pageNo,res){
-    let start = pageNo *COUNT
+function loadData(pageNo, res) {
+    let start = pageNo * count
+    res.pageNo = pageNo
     $.ajax({
-        url:'/api/shop/list',
-        data:{
-            start,
-            count:COUNT
-        },
-        dataType:'json',
-        success(result){
+      url: '/api/shop/list',
+      data: {
+        start,
+        count: count
+      },
+      dataType:'json',
+      success(result) {
+        if (result.ret) {
+          // 当不是第一页 且 本页数据删除完毕时
+          if (result.data.list.length === 0 && pageNo !== 0) {
+            pageNo--
+            loadData(pageNo, res)
+          }
+  
           res.render(shopView({
-              ...result.data,
-              pageNo,
-              pageCount:_.range(Math.ceil(result.data.total/COUNT))
-          }))  
+            ...result.data,
+            showPage: true,
+            pageNo,
+            pageCount: _.range(Math.ceil(result.data.total / count))
+          }))
+          
+          $('#select').on('change',function(){
+            count = $('#select').val()
+            loadData(res.pageNo,res)
+          })
+        } else {
+          res.go('/')
         }
+      }
     })
-}
+  }
 
 export default {
     render(req,res,next){
@@ -55,7 +73,7 @@ export default {
             loadData($(this).attr('data-index'),res)
         })
         $('#router-view').on('click','#example1_paginate .previous',function(){
-            let index = $('#example1_paginate .active').attr('data-index')
+             let index = $('#example1_paginate .active').attr('data-index')
             let pageLength= $('#example1_paginate li[data-index]').length
             if(index == 0){
               index = pageLength -1
@@ -64,7 +82,7 @@ export default {
             }
             loadData(index,res)
           })
-          $('#router-view').on('click','#example1_paginate .next',function(){
+        $('#router-view').on('click','#example1_paginate .next',function(){
             let index = $('#example1_paginate .active').attr('data-index')
             let pageLength = $('#example1_paginate li[data-index]').length
             if(index == pageLength -1){
@@ -73,7 +91,25 @@ export default {
               index++
             }
             loadData(index,res)
+        })
+        $('#router-view').on('change','#search',function(){
+            let keywords = $('#search').val()
+          $.ajax({
+            url: '/api/shop/search',
+            type: 'post',
+            data: {
+              keywords
+            },
+            dataType:'json',
+            success(result) {
+                res.render(shopView({
+                  ...result.data,
+                  showPage: false
+                }))
+            }
           })
+        })
+
     },
     add(req,res,next){
         res.render(shopAddView())

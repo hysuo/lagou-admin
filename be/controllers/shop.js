@@ -56,5 +56,16 @@ module.exports = {
           })
         }
       }
+    },
+    async search(req,res,next){
+      let list = await shopModel.search(req.body.keywords)
+      if(list){
+        res.render('succ',{
+          data:JSON.stringify({
+            list,
+            total:-1
+          })
+        })
+      }
     }
 }

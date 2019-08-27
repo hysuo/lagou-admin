@@ -30,5 +30,8 @@ module.exports = {
     },
     delete(id){
         return Model.deleteOne({_id:id})
+    },
+    search(keywors){
+        return Model.find({salesName:new RegExp(keywors,'gi')}).sort({_id:-1})
     }
 }

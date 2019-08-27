@@ -14,26 +14,35 @@ function remove(id,res){
     },
     success(result){
       if(result.ret){
-        res.go('/position?_='+new Date().getTime())
+        // res.go('/position?_='+new Date().getTime())
+        loadData(res.pageNo,res)
       }
     }
   })
 }
-function loadData(pageNo,res){
+function loadData(pageNo, res) {
   let start = pageNo * COUNT
+  res.pageNo = pageNo
   $.ajax({
     url: '/api/position/list',
-    dataType:'json',
-    data:{
+    data: {
       start,
-      count:COUNT
+      count: COUNT
     },
+    dataType:'json',
     success(result) {
       if (result.ret) {
+        // 当不是第一页 且 本页数据删除完毕时
+        if (result.data.list.length === 0 && pageNo !== 0) {
+          pageNo--
+          loadData(pageNo, res)
+        }
+
         res.render(PositionView({
           ...result.data,
+          showPage: true,
           pageNo,
-          pageCount:_.range(Math.ceil(result.data.total/COUNT))
+          pageCount: _.range(Math.ceil(result.data.total / COUNT))
         }))
       } else {
         res.go('/')
@@ -79,26 +88,45 @@ export default {
           }
           loadData(index,res)
         })
-        
+        $('#router-view').on('click', '#possearch', function() {
+          let keywords = $('#keywords').val()
+          $.ajax({
+            url: '/api/position/search',
+            type: 'post',
+            data: {
+              keywords
+            },
+            dataType:'json',
+            success(result) {
+                res.render(PositionView({
+                  ...result.data,
+                  showPage: false
+                }))
+            }
+          })
+        })
     },
-    add(req,res,next){
-      res.render(PositionAddView())
-      $('#possubmit').on('click',function(){
-        let data = $('#possave').serialize()
-        $.ajax({
-          url:'/api/position/save',
-          type:'POST',
-          data,
+    add(req, res) {
+      res.render(PositionAddView({}))
+  
+      $('#posback').on('click', () => {
+        res.back()
+      })
+  
+      $('#possubmit').on('click', () => {
+        $('#possave').ajaxSubmit({
+          url: '/api/position/save',
+          type: 'POST',
+          clearForm: true,
           dataType:'json',
-          success(result){
-            if(result.ret){
+          success(result) {
+            if (result.ret) {
               res.back()
+            } else {
+              // alert(result.data.msg)
             }
           }
         })
-      })
-      $('#posback').on('click',function(){
-        res.back()
       })
     },
     edit(req,res,next){
@@ -115,16 +143,16 @@ export default {
           $('#posback').on('click', () => {
             res.back()
           })
-          $('#possubmit').on('click',() => {
-            let data = $('#posedit').serialize()
-            $.ajax({
-              url:'/api/position/put',
+          $('#possubmit').on('click', () => {
+            $('#posedit').ajaxSubmit({
+              url: '/api/position/patch',
+              type: 'PATCH',
               dataType:'json',
-              type:'PUT',
-              data:data + "&id="+req.body.id,
-              success(result){
-                if(result.ret){
+              success(result) {
+                if (result.ret) {
                   res.back()
+                } else {
+                  // alert(result.data.msg)
                 }
               }
             })

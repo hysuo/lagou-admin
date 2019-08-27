@@ -9,11 +9,12 @@
           <div class="col-sm-6">
             <div class="dataTables_length" id="example1_length">
               <label>Show 
-                <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                <select id="select" name="example1_length" aria-controls="example1" class="form-control input-sm">
+                  <option value="0">每页数量</option>
+                  <option value="3">3</option>
+                  <option value="6">6</option>
                   <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
+                  <option value="20">20</option>
                 </select> entries
               </label>
             </div>
@@ -21,7 +22,7 @@
           <div class="col-sm-4">
             <div id="example1_filter" class="dataTables_filter">
               <label>Search:
-                <input type="search" class="form-control input-sm" placeholder="" aria-controls="example1">
+                <input type="text" id="search" value="{{keywords}}" name="pos_search"  class="form-control input-sm" placeholder="" aria-controls="example1">
               </label>
             </div>
           </div>
