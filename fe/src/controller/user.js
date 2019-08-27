@@ -18,6 +18,9 @@ export default {
            return $.ajax({
             url:'/api/users/isSignin',
             dataType:'json',
+            headers:{
+                'x-access-token': localStorage.getItem('x-access-token')
+            },
             success(result){
                 return result
             }
@@ -37,7 +40,7 @@ export default {
                 url: _url,
                 type: "POST",
                 data,
-                success(result) {
+                success(result,textStatus, jqXHR) {
                     if (_type === 'btn-signin') {
                         if (result.ret) {
                             let html = userView({
@@ -46,13 +49,17 @@ export default {
                             })
                             $('.user-menu').html(html)
                             $('.user-menu #btn-signout').on('click',() => {
-                                $.ajax({
-                                    url:'/api/users/signout',
-                                    success(result){
-                                        location.reload()
-                                    }
-                                })
+                                // $.ajax({
+                                //     url:'/api/users/signout',
+                                //     success(result){
+                                //         location.reload()
+                                //     }
+                                // })
+                                localStorage.removeItem('x-access-token')
+                                location.reload()
                             })
+                            let token = jqXHR.getResponseHeader('x-access-token')
+                            localStorage.setItem('x-access-token', token)
                         } else {
                             alert(result.data.msg)
                         }
@@ -67,12 +74,14 @@ export default {
             })
         })
         $('.user-menu #btn-signout').on('click',() => {
-            $.ajax({
-                url:'/api/users/signout',
-                success(result){
-                    location.reload()
-                }
-            })
+            // $.ajax({
+            //     url:'/api/users/signout',
+            //     success(result){
+            //         location.reload()
+            //     }
+            // })
+            localStorage.removeItem('x-access-token')
+            location.reload()
         })
     }
 }
